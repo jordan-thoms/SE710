@@ -12,7 +12,7 @@ public class HttpMain {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-	   HttpServer server = HttpServer.create(new InetSocketAddress(8010), 0);
+	   HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 	   server.createContext("/", new FileHandler());
 	   server.setExecutor(null); // creates a default executor
 	   server.start();

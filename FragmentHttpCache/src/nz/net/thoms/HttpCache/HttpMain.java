@@ -11,7 +11,7 @@ import com.sun.net.httpserver.HttpServer;
 
 
 public class HttpMain {
-	public static final String UPSTREAM = "http://localhost:8010/";
+	public static final String UPSTREAM = "http://localhost:8000/";
 
 	public static Cache<String, CacheValue> cache;
 	public static MainWindow window;
@@ -24,7 +24,7 @@ public class HttpMain {
 		
 		cache = new Cache<String, CacheValue>(10000, model);
  
-		HttpServer server = HttpServer.create(new InetSocketAddress(8011), 0);
+		HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
 		server.createContext("/", new CacheHandler());
 		server.setExecutor(null); // creates a default executor
 		server.start();

@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public class HttpClient {
-	public static final String SERVER = "http://localhost:8011/";
+	public static final String SERVER = "http://localhost:8001/";
 
 	public static List<String> getFileList() {
 		HttpGetter get = new HttpGetter(SERVER);

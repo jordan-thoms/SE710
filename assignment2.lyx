@@ -1,0 +1,146 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+ \date{} 
+\usepackage{mciteplus}
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption}
+\end_preamble
+\options hyphens
+\use_default_options true
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 4
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+SOFTENG 710 Assignment 2
+\end_layout
+
+\begin_layout Author
+Jordan Thoms 1203117
+\end_layout
+
+\begin_layout Section
+Testing
+\end_layout
+
+\begin_layout Standard
+I have tested these programs in the ground floor computing lab (compsci
+ building), with their Ubuntu Linux 11.10 installation.
+\end_layout
+
+\begin_layout Section
+Run Instructions
+\end_layout
+
+\begin_layout Standard
+I have included scripts to run the programs - from a terminal, cd to FragmentHtt
+pServer and execute run.sh, do the same for FragmentHttpCache and HttpClient.
+ I've also included scripts for part 1's HttpServer and HttpCache.
+ (As they both listen on the same ports, the Part I and Part II programs
+ should not be run simultaneously.)
+\end_layout
+
+\begin_layout Section
+Caching Technique for Part II
+\end_layout
+
+\begin_layout Standard
+I used a system where the Http cache first sends a HEAD request to the server,
+ which returns a list of the blocks in the file, identified by MD5 hash.
+ The cache then checks to see which of those blocks are not cached, and
+ sends a GET request to the server with the blocks it needs in a header,
+ if necessary (so it requests all the needed blocks in one request).
+ The server replies to this request with a JSON object mapping each of the
+ block identifiers to a base64 string representing that block's binary content.
+ JSON was used for simplicity in this case - in a production system a binary
+ protocol would probably be used as that would remove the time and space
+ overhead of the base64 encoding.
+\end_layout
+
+\begin_layout Standard
+Once the cache has all the necessary blocks, it reconstitutes the file by
+ appending the blocks together, using the values from the cache.
+\end_layout
+
+\begin_layout Standard
+To avoid the issue of changes early in the file causing the block boundaries
+ to change and then needing to reload the whole file, I used the Rabin formula
+ as described in Value-Based Web Caching (S.
+ C.
+ Rhea, K.
+ Liang and E.
+ Brewer, 2003).
+ When the Rabin formula , modulus 2048, is zero, a block boundary is placed.
+ There is also a minimum block size of 128, and a maximum of 4096, in case
+ an unusual or malicious input is being processed.
+ This results in a high cache efficiency.
+\end_layout
+
+\end_body
+\end_document
